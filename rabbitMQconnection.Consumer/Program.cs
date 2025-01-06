@@ -10,7 +10,6 @@
 using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
-// Объявление очереди
 await channel.QueueDeclareAsync(
     queue: RabbitMqConstants.QueueName,
     durable: false,
@@ -18,15 +17,12 @@ await channel.QueueDeclareAsync(
     autoDelete: false,
     arguments: null);
 
-// Создание объектов Producer и Consumer
 var producer = new Producer(channel);
 var consumer = new Consumer(channel);
 
-// Запуск Consumer
 await consumer.StartListeningAsync();
 
 var messageQueue = new List<string>();
-// Отправка сообщений
 Console.WriteLine("Введите сообщение для отправки (или 'exit' для выхода):");
 while (true)
 {
